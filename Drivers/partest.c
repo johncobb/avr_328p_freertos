@@ -67,51 +67,94 @@
     1 tab == 4 spaces!
 */
 
-#ifndef FREERTOS_CONFIG_H
-#define FREERTOS_CONFIG_H
+/* 
+Changes from V2.0.0
 
-#include <avr/io.h>
+	+ Use scheduler suspends in place of critical sections.
+
+Changes from V2.6.0
+
+	+ Replaced the inb() and outb() functions with direct memory
+	  access.  This allows the port to be built with the 20050414 build of
+	  WinAVR.
+*/
+
+#include "FreeRTOS.h"
+#include "task.h"
+#include "partest.h"
 
 /*-----------------------------------------------------------
- * Application specific definitions.
- *
- * These definitions should be adjusted for your particular hardware and
- * application requirements.
- *
- * THESE PARAMETERS ARE DESCRIBED WITHIN THE 'CONFIGURATION' SECTION OF THE
- * FreeRTOS API DOCUMENTATION AVAILABLE ON THE FreeRTOS.org WEB SITE. 
- *
- * See http://www.freertos.org/a00110.html.
- *----------------------------------------------------------*/
+ * Simple parallel port IO routines.
+ *-----------------------------------------------------------*/
 
-#define configUSE_PREEMPTION		1
-#define configUSE_IDLE_HOOK			1
-#define configUSE_TICK_HOOK			0
-#define configCPU_CLOCK_HZ			( ( unsigned long ) F_CPU)
-#define configTICK_RATE_HZ			( ( TickType_t ) 1000 )
-#define configMAX_PRIORITIES		( 4 )
-#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 85 )
-#define configTOTAL_HEAP_SIZE		( (size_t ) ( 1500 ) )
-#define configMAX_TASK_NAME_LEN		( 8 )
-#define configUSE_TRACE_FACILITY	0
-#define configUSE_16_BIT_TICKS		1
-#define configIDLE_SHOULD_YIELD		1
-#define configQUEUE_REGISTRY_SIZE	0
+#define partstALL_BITS_OUTPUT			( ( unsigned char ) 0xff )
+#define partstALL_OUTPUTS_OFF			( ( unsigned char ) 0xff )
+#define partstMAX_OUTPUT_LED			( ( unsigned char ) 7 )
 
-/* Co-routine definitions. */
-#define configUSE_CO_ROUTINES 		0
-#define configMAX_CO_ROUTINE_PRIORITIES ( 2 )
+static volatile unsigned char ucCurrentOutputValue = partstALL_OUTPUTS_OFF; /*lint !e956 File scope parameters okay here. */
 
-/* Set the following definitions to 1 to include the API function, or zero
-to exclude the API function. */
+/*-----------------------------------------------------------*/
 
-#define INCLUDE_vTaskPrioritySet		0
-#define INCLUDE_uxTaskPriorityGet		0
-#define INCLUDE_vTaskDelete				1
-#define INCLUDE_vTaskCleanUpResources	0
-#define INCLUDE_vTaskSuspend			0
-#define INCLUDE_vTaskDelayUntil			1
-#define INCLUDE_vTaskDelay				1
+void vParTestInitialise( void )
+{
+	ucCurrentOutputValue = partstALL_OUTPUTS_OFF;
+
+	/* Set port B direction to outputs.  Start with all output off. */
+	DDRB = partstALL_BITS_OUTPUT;
+	PORTB = ucCurrentOutputValue;
+}
+/*-----------------------------------------------------------*/
+
+void vParTestSetLED( unsigned portBASE_TYPE uxLED, signed portBASE_TYPE xValue )
+{
+unsigned char ucBit = ( unsigned char ) 1;
+
+	if( uxLED <= partstMAX_OUTPUT_LED )
+	{
+		ucBit <<= uxLED;	
+
+		vTaskSuspendAll();
+		{
+			if( xValue == pdTRUE )
+			{
+				ucBit ^= ( unsigned char ) 0xff;
+				ucCurrentOutputValue &= ucBit;
+			}
+			else
+			{
+				ucCurrentOutputValue |= ucBit;
+			}
+
+			PORTB = ucCurrentOutputValue;
+		}
+		xTaskResumeAll();
+	}
+}
+/*-----------------------------------------------------------*/
+
+void vParTestToggleLED( unsigned portBASE_TYPE uxLED )
+{
+unsigned char ucBit;
+
+	if( uxLED <= partstMAX_OUTPUT_LED )
+	{
+		ucBit = ( ( unsigned char ) 1 ) << uxLED;
+
+		vTaskSuspendAll();
+		{
+			if( ucCurrentOutputValue & ucBit )
+			{
+				ucCurrentOutputValue &= ~ucBit;
+			}
+			else
+			{
+				ucCurrentOutputValue |= ucBit;
+			}
+
+			PORTB = ucCurrentOutputValue;
+		}
+		xTaskResumeAll();			
+	}
+}
 
 
-#endif /* FREERTOS_CONFIG_H */

@@ -67,51 +67,74 @@
     1 tab == 4 spaces!
 */
 
-#ifndef FREERTOS_CONFIG_H
-#define FREERTOS_CONFIG_H
+#ifndef SERIAL_COMMS_H
+#define SERIAL_COMMS_H
 
-#include <avr/io.h>
+typedef void * xComPortHandle;
 
-/*-----------------------------------------------------------
- * Application specific definitions.
- *
- * These definitions should be adjusted for your particular hardware and
- * application requirements.
- *
- * THESE PARAMETERS ARE DESCRIBED WITHIN THE 'CONFIGURATION' SECTION OF THE
- * FreeRTOS API DOCUMENTATION AVAILABLE ON THE FreeRTOS.org WEB SITE. 
- *
- * See http://www.freertos.org/a00110.html.
- *----------------------------------------------------------*/
+typedef enum
+{ 
+	serCOM1, 
+	serCOM2, 
+	serCOM3, 
+	serCOM4, 
+	serCOM5, 
+	serCOM6, 
+	serCOM7, 
+	serCOM8 
+} eCOMPort;
 
-#define configUSE_PREEMPTION		1
-#define configUSE_IDLE_HOOK			1
-#define configUSE_TICK_HOOK			0
-#define configCPU_CLOCK_HZ			( ( unsigned long ) F_CPU)
-#define configTICK_RATE_HZ			( ( TickType_t ) 1000 )
-#define configMAX_PRIORITIES		( 4 )
-#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 85 )
-#define configTOTAL_HEAP_SIZE		( (size_t ) ( 1500 ) )
-#define configMAX_TASK_NAME_LEN		( 8 )
-#define configUSE_TRACE_FACILITY	0
-#define configUSE_16_BIT_TICKS		1
-#define configIDLE_SHOULD_YIELD		1
-#define configQUEUE_REGISTRY_SIZE	0
+typedef enum 
+{ 
+	serNO_PARITY, 
+	serODD_PARITY, 
+	serEVEN_PARITY, 
+	serMARK_PARITY, 
+	serSPACE_PARITY 
+} eParity;
 
-/* Co-routine definitions. */
-#define configUSE_CO_ROUTINES 		0
-#define configMAX_CO_ROUTINE_PRIORITIES ( 2 )
+typedef enum 
+{ 
+	serSTOP_1, 
+	serSTOP_2 
+} eStopBits;
 
-/* Set the following definitions to 1 to include the API function, or zero
-to exclude the API function. */
+typedef enum 
+{ 
+	serBITS_5, 
+	serBITS_6, 
+	serBITS_7, 
+	serBITS_8 
+} eDataBits;
 
-#define INCLUDE_vTaskPrioritySet		0
-#define INCLUDE_uxTaskPriorityGet		0
-#define INCLUDE_vTaskDelete				1
-#define INCLUDE_vTaskCleanUpResources	0
-#define INCLUDE_vTaskSuspend			0
-#define INCLUDE_vTaskDelayUntil			1
-#define INCLUDE_vTaskDelay				1
+typedef enum 
+{ 
+	ser50,		
+	ser75,		
+	ser110,		
+	ser134,		
+	ser150,    
+	ser200,
+	ser300,		
+	ser600,		
+	ser1200,	
+	ser1800,	
+	ser2400,   
+	ser4800,
+	ser9600,		
+	ser19200,	
+	ser38400,	
+	ser57600,	
+	ser115200
+} eBaud;
 
+xComPortHandle xSerialPortInitMinimal( unsigned long ulWantedBaud, unsigned portBASE_TYPE uxQueueLength );
+xComPortHandle xSerialPortInit( eCOMPort ePort, eBaud eWantedBaud, eParity eWantedParity, eDataBits eWantedDataBits, eStopBits eWantedStopBits, unsigned portBASE_TYPE uxBufferLength );
+void vSerialPutString( xComPortHandle pxPort, const signed char * const pcString, unsigned short usStringLength );
+signed portBASE_TYPE xSerialGetChar( xComPortHandle pxPort, signed char *pcRxedChar, TickType_t xBlockTime );
+signed portBASE_TYPE xSerialPutChar( xComPortHandle pxPort, signed char cOutChar, TickType_t xBlockTime );
+portBASE_TYPE xSerialWaitForSemaphore( xComPortHandle xPort );
+void vSerialClose( xComPortHandle xPort );
 
-#endif /* FREERTOS_CONFIG_H */
+#endif
+
