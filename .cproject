@@ -41,6 +41,12 @@
 								</option>
 								<option id="de.innot.avreclipse.compiler.option.incpath.1675895259" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/Source/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/lwip}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/ports/atmega328p}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/network}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/lwip/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/lwip/include/ipv4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/ports/atmega328p/GCC}&quot;"/>
 								</option>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.2101203035" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 							</tool>
@@ -77,6 +83,12 @@
 							<tool id="de.innot.avreclipse.tool.compiler.winavr.app.release.637645077" name="AVR Compiler" superClass="de.innot.avreclipse.tool.compiler.winavr.app.release.1029589004">
 								<option id="de.innot.avreclipse.compiler.option.incpath.1083383536" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/Source/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/lwip}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/ports/atmega328p}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/network}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/lwip/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/lwip/include/ipv4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/spike_328p_freertos/ports/atmega328p/GCC}&quot;"/>
 								</option>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.1450025654" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 							</tool>
