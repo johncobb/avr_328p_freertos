@@ -1,7 +1,7 @@
 
 
 ## Building a AVR based FreeRTOS application (blinky)
-This project walks you through the process building a FreeRTOS based AVR application to toggle a LED on the ATMega328p microcontroller. The FreeRTOS kernel is developed by leading chip manufacturers to provide a Real Time Operating System for microtrollers and microprocessors. Reffer to your microcontroller's datasheet to determine optiomal memory footprint and stack size.
+This project walks you through the process building a FreeRTOS based AVR application to toggle a LED on the ATMega328p microcontroller. The FreeRTOS kernel is developed by leading chip manufacturers to provide a Real Time Operating System for microtrollers and microprocessors. Refer to your microcontroller's datasheet to determine optiomal memory footprint and stack size.
 
 ### Prerequisites:
 
