@@ -13,8 +13,6 @@
 
 void vLEDFlashTask(void *pvParms)
 {
-
-
 	vLEDInit();
 	portTickType xLastWakeTime;
 	const portTickType xFrequency = 1000;
