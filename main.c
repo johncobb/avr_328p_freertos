@@ -7,7 +7,7 @@
 #include <avr/io.h>
 #include "FreeRTOS.h"
 #include "task.h"
-
+#include "apptasks.h"
 
 #define mainLED_TASK_PRIORITY			(tskIDLE_PRIORITY)
 #define mainLED_TASK_PRIORITY 			(tskIDLE_PRIORITY+1)
@@ -15,7 +15,7 @@
 // #define mainNEXT_TASK_3				(tskIDLE_PRIORITY+3)
 
 
-// TODO: Research moving vLEDFlashTask method to tasks.c
+// TODO: Research moving vLEDFlashTask method to apptasks.c
 void vLEDFlashTask(void *pvParms)
 {
 	vLEDInit();
