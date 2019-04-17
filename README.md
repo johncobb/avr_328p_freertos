@@ -1,7 +1,7 @@
 
 
-## Building an AVR application to communicate with the USART peripheral
-This project walks you through the process building an AVR application to exercise the usart peripheral on the ATMega328p microcontroller. The USART peripheral can be used to interface with many different types of sensors, modems, ic(s), and microcontrollers. Refer to your microcontroller's datasheet to determine optiomal baud rate to ensure maximum data rate and minimal error rate.
+## Building a AVR based FreeRTOS application (blinky)
+This project walks you through the process building a FreeRTOS based AVR application to toggle a LED on the ATMega328p microcontroller. The FreeRTOS kernel is developed by leading chip manufacturers to provide a Real Time Operating System for microtrollers and microprocessors. Reffer to your microcontroller's datasheet to determine optiomal memory footprint and stack size.
 
 ### Prerequisites:
 
